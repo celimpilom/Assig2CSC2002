@@ -46,7 +46,7 @@ public class HungryWordMover extends Thread {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					};		
-					while(pause.get()&&!done.get()) {};
+                while(pause.get()&&!done.get()) {/*do nothing */};
 			}
 			if (!done.get() && myWord.out()) {
 				score.missedWord();
