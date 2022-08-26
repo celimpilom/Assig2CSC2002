@@ -9,16 +9,21 @@ public class CatchWord extends Thread {
 	static AtomicBoolean pause; //REMOVE
 	
 	private static  FallingWord[] words; //list of words
+	private static  FallingWord[] wordsx;
 	private static int noWords; //how many
+	private static int noWordsx;
 	private static Score score; //user score
 	
 	CatchWord(String typedWord) {
 		target=typedWord;
 	}
 	
-	public static void setWords(FallingWord[] wordList) {
-		words=wordList;	
+	public static void setWords(FallingWord[] wordList,FallingWord[] wordListx) {
+		words=wordList;
+		wordsx=wordListx;	
 		noWords = words.length;
+		noWordsx = wordsx.length;
+		System.out.println("awe");
 	}
 	
 	public static void setScore(Score sharedScore) {
@@ -32,15 +37,26 @@ public class CatchWord extends Thread {
 	
 	public void run() {
 		int i=0;
+		int j=0;
 		while (i<noWords) {		
 			while(pause.get()) {};
 			if (words[i].matchWord(target)) {
-				System.out.println( " score! '" + target); //for checking
+				//System.out.println( " score! '" + target); //for checking
 				score.caughtWord(target.length());	
 				//FallingWord.increaseSpeed();
 				break;
 			}
 		   i++;
+		}
+		while (j<noWordsx) {		
+			while(pause.get()) {};
+			if (wordsx[j].matchWord(target)) {
+				System.out.println( " score! '" + target); //for checking
+				score.caughtWord(target.length());	
+				//FallingWord.increaseSpeed();
+				break;
+			}
+		   j++;
 		}
 		
 	}	
