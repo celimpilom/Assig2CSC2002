@@ -10,6 +10,7 @@ public class FallingWord {
 	private boolean out;
 	
 	private int fallingSpeed; //how fast this word is
+	private int MovingSpeed=300;
 	private static int maxWait=1000;
 	private static int minWait=100;
 
@@ -103,6 +104,9 @@ public class FallingWord {
 	public synchronized  int getSpeed() {
 		return fallingSpeed;
 	}
+	public synchronized  int getSpeedx() {
+		return MovingSpeed;
+	}
 
 	public synchronized void setPos(int x, int y) {
 		setY(y);
@@ -162,6 +166,13 @@ public class FallingWord {
 	public synchronized  boolean out() {
 		return out;
 	}
-
+	public synchronized boolean collide(FallingWord word, FallingWord wordx) {
+		if(Math.abs(word.getY()-wordx.getY())<20 && Math.abs(word.getX()-wordx.getX())<60){
+			return true;
+		}
+		return false;}
+		
+		
+	
 
 }
