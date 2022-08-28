@@ -8,19 +8,32 @@ public class HungryWordMover extends Thread {
 	private AtomicBoolean done;
 	private AtomicBoolean pause; 
 	private Score score;
+	private FallingWord [] words;
 	CountDownLatch startLatch; //so all can start at once
+
 	
 	HungryWordMover( FallingWord word) {
 		myWord = word;
 	}
 	
 	HungryWordMover( FallingWord word,WordDictionary dict, Score score,
-			CountDownLatch startLatch, AtomicBoolean d, AtomicBoolean p) {
+			CountDownLatch startLatch, AtomicBoolean d, AtomicBoolean p,FallingWord[] words) {
+		
 		this(word);
+		this.words= words;
 		this.startLatch = startLatch;
 		this.score=score;
 		this.done=d;
 		this.pause=p;
+	}
+	//
+	public void creset() {
+		for(int i=0; i<words.length;i++){
+			if(myWord.collide(words[i], myWord)){
+				words[i].resetWord();
+				score.missedWord();
+			}
+		}
 	}
 	
 	
@@ -29,19 +42,20 @@ public class HungryWordMover extends Thread {
 
 		//System.out.println(myWord.getWord() + " falling speed = " + myWord.getSpeed());
 		try {
-			System.out.println(myWord.getWord() + " waiting to start " );
+			//System.out.println(myWord.getWord() + " waiting to start " );
 			startLatch.await();
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} //wait for other threads to start
-		System.out.println(myWord.getWord() + " started" );
+		//System.out.println(myWord.getWord() + " started" );
 		while (!done.get()) {				
 			//animate the word
 			while (!myWord.out() && !done.get()) {
 				    myWord.move(10);
+					creset();
 					try {
-						sleep(myWord.getSpeed());
+						sleep(myWord.getSpeedx());
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
