@@ -97,13 +97,15 @@ public class TypingTutorApp {
         
         //create all the buttons
         //The Start Button
-	   	JButton startB = new JButton("Start");;
+	   	JButton startB = new JButton("Start");
+
 	    // add the listener to the jbutton to handle the "pressed" event
 		startB.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	won.set(false);
 		    	done.set(false);
 		    	started.set(true);
+				//pauseB.setEnable(true);
 		    	if (pause.get()) { //this is a restart from pause
 		    		pause.set(false);
 		    	} else { //user quit last game
@@ -222,7 +224,7 @@ public class TypingTutorApp {
 		}
 		//create threads to move them
 	    for (int i=0;i<noWordsx;i++) {
-	    		wrdShftx[i] = new HungryWordMover(wordsx[i],dict,score,startLatch,done,pause);
+	    		wrdShftx[i] = new HungryWordMover(wordsx[i],dict,score,startLatch,done,pause,words);
 	    }
         //word movers waiting on starting line
      	for (int i=0;i<noWordsx;i++) {
@@ -255,7 +257,7 @@ public static void main(String[] args) {
 		won = new AtomicBoolean(false);
 		
 		totalWords=24;
-		noWords=6;
+		noWords=8;
 		noWordsx=1;
 		dict= new WordDictionary();
 		
@@ -280,7 +282,7 @@ public static void main(String[] args) {
 		wrdShft = new WordMover[noWords]; //array for the threads that animate the words
 		wrdShftx = new HungryWordMover[noWordsx];
 		
-		CatchWord.setWords(words);  //class setter - static method
+		CatchWord.setWords(words,wordsx);  //class setter - static method
 		CatchWord.setScore(score);  //class setter - static method
 		CatchWord.setFlags(done,pause); //class setter - static method
 
