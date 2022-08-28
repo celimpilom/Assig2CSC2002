@@ -26,7 +26,7 @@ public class HungryWordMover extends Thread {
 		this.done=d;
 		this.pause=p;
 	}
-	//
+	
 	public void creset() {
 		for(int i=0; i<words.length;i++){
 			if(myWord.collide(words[i], myWord)){

@@ -29,13 +29,13 @@ public class WordMover extends Thread {
 
 		//System.out.println(myWord.getWord() + " falling speed = " + myWord.getSpeed());
 		try {
-			System.out.println(myWord.getWord() + " waiting to start " );
+			//System.out.println(myWord.getWord() + " waiting to start " );
 			startLatch.await();
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} //wait for other threads to start
-		System.out.println(myWord.getWord() + " started" );
+		//System.out.println(myWord.getWord() + " started" );
 		while (!done.get()) {				
 			//animate the word
 			while (!myWord.dropped() && !done.get()) {

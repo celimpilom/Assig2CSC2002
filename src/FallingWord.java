@@ -7,12 +7,15 @@ public class FallingWord {
 	private int maxY; //maximum height
 	private int maxX; // maximum width
 	private boolean dropped; //flag for if user does not manage to catch word in time
-	private boolean out;
+	private boolean out; //flag for if user does not manage to catch word in time
 	
 	private int fallingSpeed; //how fast this word is
 	private int MovingSpeed=300;
 	private static int maxWait=1000;
 	private static int minWait=100;
+	private static int maxW=380;
+	private static int minW=100;
+
 
 	public static WordDictionary dict;
 	
@@ -22,7 +25,8 @@ public class FallingWord {
 		y=0;	
 		maxY=300;
 		dropped=false;
-		fallingSpeed=(int)(Math.random() * (maxWait-minWait)+minWait); 
+		fallingSpeed=(int)(Math.random() * (maxWait-minWait)+minWait);
+		 
 	}
 	
 	FallingWord(String text) { 
@@ -38,9 +42,11 @@ public class FallingWord {
 	}
 	FallingWord(String text,int x, int maxY, int maxX) { //most commonly used constructor - sets it all.
 		this(text);
-		this.y=TypingTutorApp.frameY/2; //only need to set x, word is at top of screen at start
+		//this.y=TypingTutorApp.frameY/2; //only need to set x, word is at top of screen at start
+		this.y=(int)(Math.random() * (maxW-minW)+minW); 
 		this.maxY=maxY;
 		this.maxX=maxX;
+		
 	}
 	
 	public static void increaseSpeed( ) {
@@ -167,7 +173,7 @@ public class FallingWord {
 		return out;
 	}
 	public synchronized boolean collide(FallingWord word, FallingWord wordx) {
-		if(Math.abs(word.getY()-wordx.getY())<20 && Math.abs(word.getX()-wordx.getX())<60){
+		if(Math.abs(word.getY()-wordx.getY())<20 && Math.abs(word.getX()-wordx.getX())<80 ){
 			return true;
 		}
 		return false;}

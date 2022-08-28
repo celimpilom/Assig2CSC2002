@@ -19,7 +19,7 @@ CLASS_FILES=$(CLASSES:%.class=$(BINDIR)/%.class)
 default: $(CLASS_FILES)
 
 run: $(CLASS_FILES)
-		java -cp bin TypingTutorApp
+		java -cp bin TypingTutorApp $(total) $(screen) $(dict)
 		
 docs:
 		javadoc -d docs/ src/*.java
