@@ -1,5 +1,6 @@
 //package typingTutor;
 
+import java.net.SocketAddress;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 //Thread to monitor the word that has been typed.
@@ -34,30 +35,62 @@ public class CatchWord extends Thread {
 		done=d;
 		pause=p;
 	}
+	public int lowest(){
+		int yw=0;
+		int ind =0;
+		for(int i =0; i< words.length;i++){
+			if (target.equals(words[i])) {
+				if(words[i].getY()>yw){
+					yw=words[i].getY();ind=i;}
+			}
+		}
+		return ind;
+	}
 	
 	public void run() {
-		int i=0;
-		int j=0;
-		while (i<noWords) {		
-			while(pause.get()) {};
-			if (words[i].matchWord(target)) {
-				//System.out.println( " score! '" + target); //for checking
-				score.caughtWord(target.length());	
-				//FallingWord.increaseSpeed();
-				break;
+
+		int i = 0;
+		FallingWord lowest = null;
+
+		while (i < noWords) {
+			while (pause.get()) {
 			}
-		   i++;
-		}
-		while (j<noWordsx) {		
-			while(pause.get()) {};
-			if (wordsx[j].matchWord(target)) {
-				System.out.println( " score! '" + target); //for checking
-				score.caughtWord(target.length());	
-				//FallingWord.increaseSpeed();
-				break;
+			;
+			//NEW
+			if (words[i].getWord().equals(target)) {
+				if (lowest == null) {
+					lowest = words[i];
+				} else if (lowest.getY() < words[i].getY()) {
+					lowest = words[i];
+				}
 			}
-		   j++;
+
+			i++;
 		}
-		
+
+		for(int xp =0; xp<noWordsx;xp++){
+		if (lowest != null) {
+			if (wordsx[xp].getWord().equals(target)) {
+				if (lowest.getY() > wordsx[xp].getY()) {
+					lowest.resetWord();
+					score.caughtWord(target.length());
+				} else {
+					lowest = wordsx[xp]; 
+					lowest.resetWordx();
+					score.caughtWord(target.length());
+				}
+				
+			}else {
+				lowest.resetWord();
+				score.caughtWord(target.length());
+			}
+		}
+		else if (wordsx[xp].getWord().equals(target)) {
+				lowest = wordsx[xp];
+				lowest.resetWordx();
+				score.caughtWord(target.length());
+		}
+	}
+
 	}	
 }
